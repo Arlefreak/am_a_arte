@@ -1,0 +1,41 @@
+{
+  "name": "am_a_arte",
+  "description": "Site for @am_a_arte",
+  "main": "index.js",
+  "authors": [
+    "Arlefreak"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Html5",
+    "stylus",
+    "bower",
+    "gulp",
+    "boilerplate"
+  ],
+  "moduleType": [],
+  "homepage": "https://github.com/Arlefreak/am_a_arte",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.4",
+    "html5shiv": "~3.7.3"
+  },
+  "dependencies": {
+    "instafeed.js": "~1.4.1",
+    "unslider": "~2.0.3"
+  },
+  "overrides": {
+    "unslider": {
+      "main": [
+        "dist/**/*.js",
+        "dist/**/*.css"
+      ]
+    }
+  }
+}
