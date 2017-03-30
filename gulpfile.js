@@ -26,16 +26,16 @@ var svgo       = require('imagemin-svgo');
 var DEBUG = process.env.NODE_ENV === 'production' ? false : true;
 
 // Define paths variables
-// grab libraries files from bower_components, minify and push in /public
+// grab libraries files from bower_components, minify and push in /docs
 gulp.task('bower', function() {
     var jsFilter = gulpFilter('**/*.js', {restore: true});
     var cssFilter = gulpFilter('**/*.css', {restore: true});
     var fontFilter = gulpFilter(['*.eot', '*.woff', '*.svg', '*.ttf']);
-    var dest_path =  'public/lib';
+    var dest_path =  'docs/lib';
 
     return gulp.src(bower({debugging: true, includeDev: true}))
 
-    // grab vendor js files from bower_components, minify and push in /public
+    // grab vendor js files from bower_components, minify and push in /docs
     .pipe(jsFilter)
     .pipe(gulp.dest(dest_path + '/js/'))
     .pipe(gulpif(!DEBUG,uglify()))
@@ -46,7 +46,7 @@ gulp.task('bower', function() {
     .pipe(gulp.dest(dest_path + '/js/'))
     .pipe(jsFilter.restore)
 
-    // grab vendor css files from bower_components, minify and push in /public
+    // grab vendor css files from bower_components, minify and push in /docs
     .pipe(cssFilter)
     .pipe(gulp.dest(dest_path + '/css/'))
     // .pipe(minifycss())
@@ -56,7 +56,7 @@ gulp.task('bower', function() {
     .pipe(gulp.dest(dest_path + '/css/'))
     .pipe(cssFilter.restore)
 
-    // grab vendor font files from bower_components and push in /public
+    // grab vendor font files from bower_components and push in /docs
     .pipe(fontFilter)
     .pipe(flatten())
     .pipe(gulp.dest(dest_path + '/fonts'));
@@ -71,7 +71,7 @@ gulp.task('js', function() {
     .pipe(jshint.reporter('fail'))
     .pipe(gulpif(!DEBUG,uglify()))
     .pipe(concat('script.js'))
-    .pipe(gulp.dest('./public/js/'));
+    .pipe(gulp.dest('./docs/js/'));
 });
 
 gulp.task('css', function() {
@@ -81,7 +81,7 @@ gulp.task('css', function() {
         compress: !DEBUG,
         import:['nib']
     }))
-    .pipe(gulp.dest('public/css/'))
+    .pipe(gulp.dest('docs/css/'))
     .pipe(connect.reload());
 });
 
@@ -92,24 +92,24 @@ gulp.task('img', function(){
         svgoPlugins: [{removeViewBox: false}],
         use: [pngquant(), gifsicle(), jpegtran(), svgo()]
     }))
-    .pipe(gulp.dest('public/img'))
+    .pipe(gulp.dest('docs/img'))
     .pipe(connect.reload());
 });
 
 gulp.task('html', function() {
     gulp.src('./src/*.html')
-    .pipe(gulp.dest('./public/'))
+    .pipe(gulp.dest('./docs/'))
     .pipe(connect.reload());
 });
 
 gulp.task('files', function() {
     gulp.src(['./src/**.*', '!./src/**.*.html', '!./src/**.*js', '!./src/img/'])
-    .pipe(gulp.dest('./public/'));
+    .pipe(gulp.dest('./docs/'));
 });
 
 gulp.task('connect', function() {
     connect.server({
-        root: 'public',
+        root: 'docs',
         livereload: true,
     });
 });
@@ -122,3 +122,5 @@ gulp.task('watch', ['css', 'js', 'img', 'html', 'connect'], function() {
     gulp.watch('src/img/**/*', ['img']);
     gulp.watch('src/*.html', ['html']);
 });
+
+gulp.task('default', ['init']);
